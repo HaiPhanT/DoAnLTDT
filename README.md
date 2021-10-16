@@ -17,4 +17,4 @@
  - Cần check tất cả 9 lại đồ thị và update kết quả (nếu check ra `true`) cho `graphTypeMapping`
  - Sau cùng sử dụng hàm `PrintResult` sẽ in ra kết quả như yêu cầu
 
-**Goodluck**
+## Goodluck

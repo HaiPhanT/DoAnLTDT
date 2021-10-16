@@ -223,54 +223,54 @@ namespace DoAnLTDT
                         int k = graphTypeMapping[GrapTypes.EMTPY_GRAPH];
                         bool isEmptyGraph = k > 0;
                         string result = isEmptyGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi trong: {result}");
+                        Console.WriteLine($"1. Do thi trong: {result}");
                         break;
 
                     case GrapTypes.CYCLE_GRAPH:
                         k = graphTypeMapping[GrapTypes.CYCLE_GRAPH];
                         bool isCycleGraph = k > 0;
                         result = isCycleGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi vong: {result}");
+                        Console.WriteLine($"2. Do thi vong: {result}");
                         break;
 
                     case GrapTypes.BUTTERFLY_GRAPH:
                         bool isButterflyGraph = graphTypeMapping[GrapTypes.BUTTERFLY_GRAPH] > 0;
                         result = isButterflyGraph ? $"Co" : "Khong";
-                        Console.WriteLine($"Do thi hinh con buom: {result}");
+                        Console.WriteLine($"3. Do thi hinh con buom: {result}");
                         break;
 
                     case GrapTypes.MOTH_GRAPH:
                         bool isMothGraph = graphTypeMapping[GrapTypes.MOTH_GRAPH] > 0;
                         result = isMothGraph ? $"Co" : "Khong";
-                        Console.WriteLine($"Do thi hinh con ngai: {result}");
+                        Console.WriteLine($"4. Do thi hinh con ngai: {result}");
                         break;
 
                     case GrapTypes.STAR_GRAPH:
                         k = graphTypeMapping[GrapTypes.STAR_GRAPH];
                         bool isStarGraph = k > 0;
                         result = isStarGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi hinh sao: {result}");
+                        Console.WriteLine($"5. Do thi hinh sao: {result}");
                         break;
 
                     case GrapTypes.WHEEL_GRAPH:
                         k = graphTypeMapping[GrapTypes.WHEEL_GRAPH];
                         bool isWheelGraph = k > 0;
                         result = isWheelGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi hinh banh xe: {result}");
+                        Console.WriteLine($"6. Do thi hinh banh xe: {result}");
                         break;
 
                     case GrapTypes.BARBELL_GRAPH:
                         k = graphTypeMapping[GrapTypes.BARBELL_GRAPH];
                         bool isBarbellGraph = k > 0;
                         result = isBarbellGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi Barbell: {result}");
+                        Console.WriteLine($"7. Do thi Barbell: {result}");
                         break;
 
                     case GrapTypes.FRIENDSHIP_GRAPH:
                         k = graphTypeMapping[GrapTypes.FRIENDSHIP_GRAPH];
                         bool isFriendshipGraph = k > 0;
                         result = isFriendshipGraph ? $"k = {k}" : "Khong";
-                        Console.WriteLine($"Do thi tinh ban: {result}");
+                        Console.WriteLine($"8. Do thi tinh ban: {result}");
                         break;
 
                     case GrapTypes.K_PARTITE_GRAPH:
@@ -278,11 +278,11 @@ namespace DoAnLTDT
                         bool isKPartiteGraph = p.Count > 0;
                         if (!isKPartiteGraph)
                         {
-                            Console.WriteLine($"Do thi k phan: Khong");
+                            Console.WriteLine($"9. Do thi k phan: Khong");
                             break;
                         }
                         result = $"k = {p.Count} {FormatKPartiteToString(p)}";
-                        Console.WriteLine($"Do thi k phan: {result}");
+                        Console.WriteLine($"9. Do thi k phan: {result}");
                         break;
 
                     default:

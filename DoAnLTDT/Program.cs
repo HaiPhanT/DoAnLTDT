@@ -1,4 +1,4 @@
-﻿  
+﻿
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace DoAnLTDT
             public int[,] adjacencyList;
         }
 
-        public enum GrapTypes
+        public enum GraphTypes
         {
             EMTPY_GRAPH,
             CYCLE_GRAPH,
@@ -177,29 +177,29 @@ namespace DoAnLTDT
             }
         }
 
-        public static void CheckForEmptyGraph(AdjacencyMatrix am, Dictionary<GrapTypes, dynamic> gt)
+        public static void CheckForEmptyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             int numberOfEdges = CountEdges(am);
             if (numberOfEdges == 0)
             {
-                gt[GrapTypes.EMTPY_GRAPH] = am.numberOfVertexes;
+                gt[GraphTypes.EMTPY_GRAPH] = am.numberOfVertexes;
             }
         }
-        public static void CheckForButterflyGraph(AdjacencyMatrix am, Dictionary<GrapTypes, dynamic> gt)
+        public static void CheckForButterflyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             int numberOfVertex = am.numberOfVertexes;
             int numberOfEdges = CountEdges(am);
             if (numberOfEdges == 6 && numberOfVertex == 5)
             {
-                gt[GrapTypes.BUTTERFLY_GRAPH] = am.numberOfVertexes;
+                gt[GraphTypes.BUTTERFLY_GRAPH] = am.numberOfVertexes;
             }
         }
-        public static void CheckForStarGraph(AdjacencyMatrix am,Dictionary<GrapTypes, dynamic> gt)
+        public static void CheckForStarGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
-              int numberOfEdges = CountEdges(am);
-            if (numberOfEdges == (am.numberOfVertexes-1))
+            int numberOfEdges = CountEdges(am);
+            if (numberOfEdges == (am.numberOfVertexes - 1))
             {
-                gt[GrapTypes.STAR_GRAPH] = am.numberOfVertexes;
+                gt[GraphTypes.STAR_GRAPH] = am.numberOfVertexes;
             }
 
         }
@@ -231,86 +231,86 @@ namespace DoAnLTDT
             return result;
         }
 
-        public static Dictionary<GrapTypes, dynamic> ConstrucDefaultTypeMapping()
+        public static Dictionary<GraphTypes, dynamic> ConstrucDefaultTypeMapping()
         {
-            Dictionary<GrapTypes, dynamic> graphTypeMapping = new Dictionary<GrapTypes, dynamic>
+            Dictionary<GraphTypes, dynamic> graphTypeMapping = new Dictionary<GraphTypes, dynamic>
             {
-                [GrapTypes.EMTPY_GRAPH] = 0,
-                [GrapTypes.CYCLE_GRAPH] = 0,
-                [GrapTypes.BUTTERFLY_GRAPH] = 0,
-                [GrapTypes.MOTH_GRAPH] = 0,
-                [GrapTypes.STAR_GRAPH] = 0,
-                [GrapTypes.WHEEL_GRAPH] = 0,
-                [GrapTypes.BARBELL_GRAPH] = 0,
-                [GrapTypes.FRIENDSHIP_GRAPH] = 0,
-                [GrapTypes.K_PARTITE_GRAPH] = new List<List<int>> { }
+                [GraphTypes.EMTPY_GRAPH] = 0,
+                [GraphTypes.CYCLE_GRAPH] = 0,
+                [GraphTypes.BUTTERFLY_GRAPH] = 0,
+                [GraphTypes.MOTH_GRAPH] = 0,
+                [GraphTypes.STAR_GRAPH] = 0,
+                [GraphTypes.WHEEL_GRAPH] = 0,
+                [GraphTypes.BARBELL_GRAPH] = 0,
+                [GraphTypes.FRIENDSHIP_GRAPH] = 0,
+                [GraphTypes.K_PARTITE_GRAPH] = new List<List<int>> { }
             };
 
             return graphTypeMapping;
         }
 
-        public static void PrintResult(Dictionary<GrapTypes, dynamic> graphTypeMapping)
+        public static void PrintResult(Dictionary<GraphTypes, dynamic> graphTypeMapping)
         {
-            foreach (GrapTypes key in graphTypeMapping.Keys)
+            foreach (GraphTypes key in graphTypeMapping.Keys)
             {
                 switch (key)
                 {
-                    case GrapTypes.EMTPY_GRAPH:
-                        int k = graphTypeMapping[GrapTypes.EMTPY_GRAPH];
+                    case GraphTypes.EMTPY_GRAPH:
+                        int k = graphTypeMapping[GraphTypes.EMTPY_GRAPH];
                         bool isEmptyGraph = k > 0;
                         string result = isEmptyGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"1. Do thi trong: {result}");
                         break;
 
-                    case GrapTypes.CYCLE_GRAPH:
-                        k = graphTypeMapping[GrapTypes.CYCLE_GRAPH];
+                    case GraphTypes.CYCLE_GRAPH:
+                        k = graphTypeMapping[GraphTypes.CYCLE_GRAPH];
                         bool isCycleGraph = k > 0;
                         result = isCycleGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"2. Do thi vong: {result}");
                         break;
 
-                    case GrapTypes.BUTTERFLY_GRAPH:
-                        bool isButterflyGraph = graphTypeMapping[GrapTypes.BUTTERFLY_GRAPH] > 0;
+                    case GraphTypes.BUTTERFLY_GRAPH:
+                        bool isButterflyGraph = graphTypeMapping[GraphTypes.BUTTERFLY_GRAPH] > 0;
                         result = isButterflyGraph ? $"Co" : "Khong";
                         Console.WriteLine($"3. Do thi hinh con buom: {result}");
                         break;
 
-                    case GrapTypes.MOTH_GRAPH:
-                        bool isMothGraph = graphTypeMapping[GrapTypes.MOTH_GRAPH] > 0;
+                    case GraphTypes.MOTH_GRAPH:
+                        bool isMothGraph = graphTypeMapping[GraphTypes.MOTH_GRAPH] > 0;
                         result = isMothGraph ? $"Co" : "Khong";
                         Console.WriteLine($"4. Do thi hinh con ngai: {result}");
                         break;
 
-                    case GrapTypes.STAR_GRAPH:
-                        k = graphTypeMapping[GrapTypes.STAR_GRAPH];
+                    case GraphTypes.STAR_GRAPH:
+                        k = graphTypeMapping[GraphTypes.STAR_GRAPH];
                         bool isStarGraph = k > 0;
                         result = isStarGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"5. Do thi hinh sao: {result}");
                         break;
 
-                    case GrapTypes.WHEEL_GRAPH:
-                        k = graphTypeMapping[GrapTypes.WHEEL_GRAPH];
+                    case GraphTypes.WHEEL_GRAPH:
+                        k = graphTypeMapping[GraphTypes.WHEEL_GRAPH];
                         bool isWheelGraph = k > 0;
                         result = isWheelGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"6. Do thi hinh banh xe: {result}");
                         break;
 
-                    case GrapTypes.BARBELL_GRAPH:
-                        k = graphTypeMapping[GrapTypes.BARBELL_GRAPH];
+                    case GraphTypes.BARBELL_GRAPH:
+                        k = graphTypeMapping[GraphTypes.BARBELL_GRAPH];
                         bool isBarbellGraph = k > 0;
                         result = isBarbellGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"7. Do thi Barbell: {result}");
                         break;
 
-                    case GrapTypes.FRIENDSHIP_GRAPH:
-                        k = graphTypeMapping[GrapTypes.FRIENDSHIP_GRAPH];
+                    case GraphTypes.FRIENDSHIP_GRAPH:
+                        k = graphTypeMapping[GraphTypes.FRIENDSHIP_GRAPH];
                         bool isFriendshipGraph = k > 0;
                         result = isFriendshipGraph ? $"k = {k}" : "Khong";
                         Console.WriteLine($"8. Do thi tinh ban: {result}");
                         break;
 
-                    case GrapTypes.K_PARTITE_GRAPH:
-                        List<List<int>> p = graphTypeMapping[GrapTypes.K_PARTITE_GRAPH];
+                    case GraphTypes.K_PARTITE_GRAPH:
+                        List<List<int>> p = graphTypeMapping[GraphTypes.K_PARTITE_GRAPH];
                         bool isKPartiteGraph = p.Count > 0;
                         if (!isKPartiteGraph)
                         {
@@ -354,7 +354,7 @@ namespace DoAnLTDT
             Console.WriteLine();
             foreach (AdjacencyMatrix am in AMs)
             {
-                Dictionary<GrapTypes, dynamic> graphTypeMapping = ConstrucDefaultTypeMapping();
+                Dictionary<GraphTypes, dynamic> graphTypeMapping = ConstrucDefaultTypeMapping();
                 CheckForEmptyGraph(am, graphTypeMapping);
                 CheckForButterflyGraph(am, graphTypeMapping);
                 CheckForStarGraph(am, graphTypeMapping);

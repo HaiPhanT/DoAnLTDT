@@ -82,7 +82,7 @@ namespace DoAnLTDT
 
         public static AdjacencyList[] ReadMultiAL(string filePath)
         {
-            StreamReader streamReader = new StreamReader("input.txt");
+            StreamReader streamReader = new StreamReader(filePath);
 
             // khoi tao danh sach AL
             int numberOfALs = int.Parse(streamReader.ReadLine());
@@ -161,6 +161,7 @@ namespace DoAnLTDT
             }
             return totalEdges;
         }
+
         private void CountDegVertex(AdjacencyMatrix g, ref int[] DegVertex)
         {
             for (int i = 0; i < g.numberOfVertexes; ++i)
@@ -177,6 +178,51 @@ namespace DoAnLTDT
             }
         }
 
+        public static bool IsKRegularGraph(AdjacencyMatrix g, int k)
+        {
+            int i, j;
+            for (i = 0; i < g.numberOfVertexes; ++i)
+            {
+                int currentVertextDeg = 0;
+                for (j = 0; j < g.numberOfVertexes; ++j)
+                {
+                    if (g.adjacencyMatrix[i, j] > 0)
+                    {
+                        ++currentVertextDeg;
+                    }
+                }
+                if (currentVertextDeg != k)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static void DFS(AdjacencyMatrix g, int start, int goal, bool[] visited)
+        {
+            // vieng tham dinh v
+            visited[start] = true;
+
+            // dung chay DFS khi da den diem dich
+            if (start == goal)
+            {
+                return;
+            }
+
+            // voi moi dinh trong graph
+            for (int i = 0; i < g.numberOfVertexes; i++)
+            {
+                // neu dinh ke voi v va chua duoc vieng tham thi goi DFS
+                if (g.adjacencyMatrix[start, i] == 1 && (!visited[i]))
+                {
+                    DFS(g, i, goal, visited);
+                }
+            }
+        }
+
+        // Danh sach cac ham check loai do thi
+
         public static void CheckForEmptyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             int numberOfEdges = CountEdges(am);
@@ -185,6 +231,41 @@ namespace DoAnLTDT
                 gt[GraphTypes.EMTPY_GRAPH] = am.numberOfVertexes;
             }
         }
+
+        public static void CheckForCycleGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
+        {
+            bool is2RegularGraph = IsKRegularGraph(am, 2);
+
+            // do thi vong phai la do thi 2 chinh quy
+            if (!is2RegularGraph)
+            {
+                return;
+            }
+
+            // khoi tao danh sach cac dinh dung de duyet DFS
+            bool[] visited = new bool[am.numberOfVertexes];
+            for (int i = 0; i < am.numberOfVertexes; i++)
+            {
+                visited[i] = false;
+            }
+
+            // duyet DFS bat dau tu dinh 0 cho den dinh cuoi cung
+            int start = 0;
+            int goal = am.numberOfVertexes - 1;
+            DFS(am, start, goal, visited);
+
+            // neu qua trinh duyet khong visit het cac dinh thi day khong phai do thi vong
+            bool notFullyVisited = visited.Where(visitedVertex => visitedVertex == false).Count() > 0;
+            if (notFullyVisited)
+            {
+                return;
+            }
+
+            // truong hop duyet DFS 1 lan qua het tat ca cac dinh thi ket luan day la do thi vong
+            // cap nhat thong tin k dinh cho do thi
+            gt[GraphTypes.CYCLE_GRAPH] = am.numberOfVertexes;
+        }
+
         public static void CheckForButterflyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             int numberOfVertex = am.numberOfVertexes;
@@ -194,6 +275,7 @@ namespace DoAnLTDT
                 gt[GraphTypes.BUTTERFLY_GRAPH] = am.numberOfVertexes;
             }
         }
+
         public static void CheckForStarGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             int numberOfEdges = CountEdges(am);
@@ -203,6 +285,8 @@ namespace DoAnLTDT
             }
 
         }
+
+        // Cac ham phu trach viec in ket qua
 
         public static string FormatKPartiteToString(List<List<int>> p)
         {
@@ -356,6 +440,7 @@ namespace DoAnLTDT
             {
                 Dictionary<GraphTypes, dynamic> graphTypeMapping = ConstrucDefaultTypeMapping();
                 CheckForEmptyGraph(am, graphTypeMapping);
+                CheckForCycleGraph(am, graphTypeMapping);
                 CheckForButterflyGraph(am, graphTypeMapping);
                 CheckForStarGraph(am, graphTypeMapping);
                 PrintResult(graphTypeMapping);

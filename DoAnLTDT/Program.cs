@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -13,7 +13,6 @@ namespace DoAnLTDT
             public int numberOfVertexes;
             public int[,] adjacencyMatrix;
 
-            public int DegVertex { get; internal set; }
         }
 
         public struct AdjacencyList
@@ -82,7 +81,7 @@ namespace DoAnLTDT
 
         public static AdjacencyList[] ReadMultiAL(string filePath)
         {
-            StreamReader streamReader = new StreamReader(filePath);
+            StreamReader streamReader = new StreamReader("input.txt");
 
             // khoi tao danh sach AL
             int numberOfALs = int.Parse(streamReader.ReadLine());
@@ -162,7 +161,7 @@ namespace DoAnLTDT
             return totalEdges;
         }
 
-        private void CountDegVertex(AdjacencyMatrix g, ref int[] DegVertex)
+        public static void CountDegVertex(AdjacencyMatrix g, ref int[] DegVertex)
         {
             for (int i = 0; i < g.numberOfVertexes; ++i)
             {
@@ -175,6 +174,43 @@ namespace DoAnLTDT
                             count += g.adjacencyMatrix[i, i];
                     }
                 DegVertex[i] = count;
+            }
+            
+        }
+        public static bool CountDegButterflyGraph(int[] DegVertex)
+        {
+            int Count1 = 0;
+            int Count2 = 0;
+            for(int i=0; i<DegVertex.Length;i++)
+            {
+                if (DegVertex[i] == 4)
+                    Count1++;
+                else
+                    Count2++;
+            }
+            if (Count1 != 1 || Count2 !=4)
+                return false;
+            return true;
+      
+        }
+        public static void CheckForButterflyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt, bool CountDegButterflyGraph)
+        {
+       
+            int numberOfVertex = am.numberOfVertexes;
+            int numberOfEdges = CountEdges(am);
+            if (numberOfEdges == 6 && numberOfVertex == 5 && CountDegButterflyGraph == true )
+            {
+          
+                gt[GraphTypes.BUTTERFLY_GRAPH] = am.numberOfVertexes;
+            }
+        }
+        public static void CheckForEmptyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
+        {
+            
+            int numberOfEdges = CountEdges(am);
+            if (numberOfEdges == 0)
+            {
+                gt[GraphTypes.EMTPY_GRAPH] = am.numberOfVertexes;
             }
         }
 
@@ -223,15 +259,7 @@ namespace DoAnLTDT
 
         // Danh sach cac ham check loai do thi
 
-        public static void CheckForEmptyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
-        {
-            int numberOfEdges = CountEdges(am);
-            if (numberOfEdges == 0)
-            {
-                gt[GraphTypes.EMTPY_GRAPH] = am.numberOfVertexes;
-            }
-        }
-
+        
         public static void CheckForCycleGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
         {
             bool is2RegularGraph = IsKRegularGraph(am, 2);
@@ -266,20 +294,28 @@ namespace DoAnLTDT
             gt[GraphTypes.CYCLE_GRAPH] = am.numberOfVertexes;
         }
 
-        public static void CheckForButterflyGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
+        public static bool CountDegStarGraph(AdjacencyMatrix am, int[] DegVertex)
         {
-            int numberOfVertex = am.numberOfVertexes;
-            int numberOfEdges = CountEdges(am);
-            if (numberOfEdges == 6 && numberOfVertex == 5)
+            // xác định bậc đỉnh, sẽ có đỉnh có bậc bằng tổng số đỉnh -1 => vdu: đồ thị hình sao 9 
+            //đỉnh thì đỉnh trung tâm nối vs tất cả đỉnh kia có bậc=8
+            int Count1 = 0;
+            int Count2 = 0;
+            for (int i = 0; i < DegVertex.Length; i++)
             {
-                gt[GraphTypes.BUTTERFLY_GRAPH] = am.numberOfVertexes;
+                if (DegVertex[i] == (am.numberOfVertexes-1 ))
+                    Count1++;
+                else if(DegVertex[i] == 1)
+                    Count2++;
             }
-        }
+            if (Count1 != 1 || Count2 != (am.numberOfVertexes - 1)) //tất cả đỉnh còn lại đều bậc 1
+                return false;
+            return true;
 
-        public static void CheckForStarGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt)
+        }
+        public static void CheckForStarGraph(AdjacencyMatrix am, Dictionary<GraphTypes, dynamic> gt, bool CountDegStarGraph)
         {
             int numberOfEdges = CountEdges(am);
-            if (numberOfEdges == (am.numberOfVertexes - 1))
+            if (numberOfEdges == (am.numberOfVertexes - 1) && CountDegStarGraph==true)
             {
                 gt[GraphTypes.STAR_GRAPH] = am.numberOfVertexes;
             }
@@ -441,8 +477,8 @@ namespace DoAnLTDT
                 Dictionary<GraphTypes, dynamic> graphTypeMapping = ConstrucDefaultTypeMapping();
                 CheckForEmptyGraph(am, graphTypeMapping);
                 CheckForCycleGraph(am, graphTypeMapping);
-                CheckForButterflyGraph(am, graphTypeMapping);
-                CheckForStarGraph(am, graphTypeMapping);
+                CheckForButterflyGraph(am, graphTypeMapping, true);
+                CheckForStarGraph(am, graphTypeMapping,true);
                 PrintResult(graphTypeMapping);
                 Console.WriteLine("-----------------------");
             }
